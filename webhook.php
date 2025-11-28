@@ -163,7 +163,7 @@ function buildAdminEmailHTML($attr) {
                 </div>
                 <div class='field'>
                     <span class='field-label'>Direction:</span>
-                    <span class='field-value'>$direction°</span>
+                    <span class='field-value'>$direction °</span>
                 </div>
                 <div class='field'>
                     <span class='field-label'>Elevation:</span>
@@ -406,4 +406,5 @@ try {
 }
 
 exit;
+
 ?>
