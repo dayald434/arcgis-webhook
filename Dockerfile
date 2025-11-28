@@ -1,17 +1,18 @@
-# Use official PHP image with Apache
 FROM php:8.2-apache
 
-# Enable Apache mod_rewrite
+# Enable mod_rewrite (optional but nice)
 RUN a2enmod rewrite
 
-# Copy project files into Apache root
+# Copy your PHP files into Apache web root
 COPY . /var/www/html/
 
-# Expose port
-EXPOSE 10000
+# Make Apache listen on port 8080 inside the container
+ENV APACHE_LISTEN_PORT=8080
+RUN sed -ri -e 's!Listen 80!Listen ${APACHE_LISTEN_PORT}!g' /etc/apache2/ports.conf \
+    -e 's!<VirtualHost \*:80>!<VirtualHost \*:${APACHE_LISTEN_PORT}>!g' /etc/apache2/sites-available/000-default.conf
 
-# Render uses $PORT so set Apache to listen on that
-RUN sed -i "s/80/${PORT}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
+# Expose 8080 (Render will map this to the public URL port)
+EXPOSE 8080
 
 # Start Apache
 CMD ["apache2-foreground"]
